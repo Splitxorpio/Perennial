@@ -2,6 +2,8 @@ import pygame, sys
 from settings import *
 from tile import *
 from player import *
+from support import *
+from random import choice
 class Level:
     def __init__(self):
         self.display = pygame.display.get_surface()
@@ -9,10 +11,30 @@ class Level:
         self.obstacles = pygame.sprite.Group()
         self.create_map()
     def create_map(self):
-        # for row_index, row in enumerate(WORLD_MAP):
-        #     for col_index, col in enumerate(row):
-        #         x = col_index * TILE_SIZE
-        #         y = row_index * TILE_SIZE
+        layout = {
+            'boundary' : import_csv_layout('Border.csv'),
+            'obstacles': import_csv_layout('PerennialMapObstacles_obstacles.csv'),
+            'walls': import_csv_layout('Walls.csv'),
+        }
+        graphics = {
+            'obstacles': import_folder('images/Obstacles'),
+            'walls': import_folder('images/Walls'),
+        }
+        print(graphics)
+        for style, layout in layout.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILE_SIZE
+                        y = row_index * TILE_SIZE
+                        if style == 'boundary':
+                            Tile((x,y), [self.obstacles], 'invisible' )
+                        if style == 'obstacles':
+                            random_obstacle = choice(graphics['obstacles'])
+                            Tile((x,y), [self.visible_sprites,self.obstacles], 'obstacles', random_obstacle)
+                        if style == 'walls':
+                            random_wall = choice(graphics['walls'])
+                            Tile((x,y), [self.visible_sprites,self.obstacles], 'walls', random_wall)
         #         tileName = WORLD_MAP[row_index][col_index].split("-")
         #         if col == 'x':
         #             Tile((x,y), [self.visible_sprites, self.obstacles], 'images\character\Rock1.png')
@@ -36,7 +58,6 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor = pygame.image.load('images\PerennialMap.png').convert()
         self.floor_rect = self.floor.get_rect(topleft = (0,0))
     def custom_draw(self, player):
-
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
         floor_offset_pos = self.floor_rect.topleft - self.offset
@@ -45,4 +66,5 @@ class YSortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)
+
             
