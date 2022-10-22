@@ -1,4 +1,5 @@
 import pygame
+import pandas
 TICK_SPEED = 60
 WIDTH = 800
 HEIGHT = 600

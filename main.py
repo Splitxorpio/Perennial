@@ -4,7 +4,7 @@ from settings import *
 from level import *
 class Game:
     def __init__(self):
-        self.screen = pygame.display.set_mod((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.level = Level()
     def run(self):
