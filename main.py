@@ -13,7 +13,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            self.screen.fill((0,0,0))
+            self.screen.fill((0,0,100))
             self.level.run()
             pygame.display.flip()
             self.clock.tick(TICK_SPEED)
