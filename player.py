@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
 
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 5
-
+        self.test = False
         self.obstacle_sprites = obstacle_sprites
 
     def import_player_assets(self):
@@ -64,15 +64,37 @@ class Player(pygame.sprite.Sprite):
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0:
+                        # check if the sprite is a lizard
+                        if sprite.sprite_type == 'bossindicator':
+                            self.test = True
+                            print("yes")
+                        else:
+                            self.test = False
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0:
+                        if sprite.sprite_type == 'bossindicator':
+                            self.test = True
+                            print("yes")
+                        else:
+                            self.test = False
                         self.hitbox.left = sprite.hitbox.right
+                    
         if direction == 'vertical':
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0:
+                        if sprite.sprite_type == 'bossindicator':
+                            self.test = True
+                            print("Yes")
+                        else:
+                            self.test = False
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:
+                        if sprite.sprite_type == 'bossindicator':
+                            self.test = True
+                            print("yes")
+                        else:
+                            self.test = False
                         self.hitbox.top = sprite.hitbox.bottom
     def animate(self):
         animation = self.animations[self.status]
