@@ -29,6 +29,7 @@ class Game:
     def win(self):
         vid = Video("winner.mp4")
         vid.set_size((WIDTH, HEIGHT))
+        self.screen.fill((0,0,0))
         while True:
             vid.draw(self.screen, (0, 0))
             pygame.display.update()
